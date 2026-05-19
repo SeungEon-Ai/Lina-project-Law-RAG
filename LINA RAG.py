@@ -216,7 +216,7 @@ st.markdown("""
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from google import genai
 
 
@@ -233,10 +233,10 @@ def load_embedding_model():
 def load_vector_db(_embedding_model):
     BASE_DIR = Path(".")
     DATA_DIR = BASE_DIR / "data"
-    DB_DIR = str(BASE_DIR / "db" / "chroma_db")
+    DB_DIR = str(BASE_DIR / "db" / "faiss_db")
 
-    if Path(DB_DIR).exists() and any(Path(DB_DIR).iterdir()):
-        return Chroma(persist_directory=DB_DIR, embedding_function=_embedding_model)
+    if Path(DB_DIR).exists() and (Path(DB_DIR) / "index.faiss").exists():
+        return FAISS.load_local(DB_DIR, _embedding_model, allow_dangerous_deserialization=True)
 
     pdf_files = sorted(DATA_DIR.glob("*.pdf"))
     if not pdf_files:
@@ -258,11 +258,9 @@ def load_vector_db(_embedding_model):
     )
     chunks = text_splitter.split_documents(docs)
 
-    return Chroma.from_documents(
-        documents=chunks,
-        embedding_function=_embedding_model,
-        persist_directory=DB_DIR,
-    )
+    vector_db = FAISS.from_documents(chunks, _embedding_model)
+    vector_db.save_local(DB_DIR)
+    return vector_db
 
 # ──────────────────────────────────────────────
 # 키워드 탐지
@@ -416,7 +414,7 @@ law_tags_html = "".join(f'<span class="law-tag">{l}</span>' for l in laws)
 
 st.markdown(f"""
 <div class="app-header">
-  <div class="badge">RAG 기반 심의 보조 도구</div>
+  <div class="badge">LINA Life Insurance X Young Makers (TEAM 5) RAG 기반 심의 보조 도구</div>
   <h1>생명보험 광고 심의 시스템</h1>
   <p>광고 문구를 입력하면 관련 법령 및 심의기준을 검색하여
      리스크 분석, 문제 표현 지적, 수정 권장안을 제시합니다.</p>
