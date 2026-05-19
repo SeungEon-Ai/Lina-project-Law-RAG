@@ -411,7 +411,7 @@ law_tags_html = "".join(f'<span class="law-tag">{l}</span>' for l in laws)
 st.markdown(f"""
 <div class="app-header">
   <div class="badge">LINA Life Insurance X Young Makers (TEAM 5)</div>
-  <h1>🛡️ 생명보험 광고 RAG 심의 보조 및 추천 광고 카피 제안 도구</h1>
+  <h1>🛡️ 생명보험 광고 RAG 심의 보조 및 광고 카피 추천 도구</h1>
   <p>광고 문구를 입력하면 관련 법령 및 심의기준을 검색하여
      리스크 분석, 문제 표현 지적, 수정 권장안을 제시합니다.</p>
   <div class="law-tags">{law_tags_html}</div>
