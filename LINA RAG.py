@@ -256,10 +256,9 @@ def load_vector_db(_embedding_model):
 
     return Chroma.from_documents(
         documents=chunks,
-        embedding=_embedding_model,
+        embedding_function=_embedding_model,
         persist_directory=DB_DIR,
     )
-
 
 # ──────────────────────────────────────────────
 # 키워드 탐지
