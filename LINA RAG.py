@@ -7,7 +7,7 @@ from pathlib import Path
 # 페이지 설정
 # ──────────────────────────────────────────────
 st.set_page_config(
-    page_title="광고 심의 보조 시스템",
+    page_title="생명보험 광고 심의 RAG 시스템",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -410,8 +410,8 @@ law_tags_html = "".join(f'<span class="law-tag">{l}</span>' for l in laws)
 
 st.markdown(f"""
 <div class="app-header">
-  <div class="badge">LINA Life Insurance X Young Makers (TEAM 5) RAG 기반 심의 보조 도구</div>
-  <h1>생명보험 광고 심의 시스템</h1>
+  <div class="badge">LINA Life Insurance X Young Makers (TEAM 5)</div>
+  <h1>🛡️ LINA X 생명보험 광고 RAG 기반 심의 보조 및 추천 광고 카피 제안 도구</h1>
   <p>광고 문구를 입력하면 관련 법령 및 심의기준을 검색하여
      리스크 분석, 문제 표현 지적, 수정 권장안을 제시합니다.</p>
   <div class="law-tags">{law_tags_html}</div>
