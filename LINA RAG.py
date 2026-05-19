@@ -426,14 +426,16 @@ embedding_model = load_embedding_model()
 vector_db = load_vector_db(embedding_model)
 retriever = vector_db.as_retriever(search_kwargs={"k": 6})
 
-# API Key
-st.markdown('<div class="api-section"><div class="label">🔑 API 연결</div></div>', unsafe_allow_html=True)
-gemini_key = st.text_input(
-    "Gemini API Key",
-    type="password",
-    placeholder="Google AI Studio에서 발급받은 키를 붙여넣으세요",
-    label_visibility="collapsed",
-)
+# API Key — Secrets에서 자동 로드, 없으면 직접 입력
+gemini_key = st.secrets.get("GEMINI_API_KEY", "")
+if not gemini_key:
+    st.markdown('<div class="api-section"><div class="label">🔑 API 연결</div></div>', unsafe_allow_html=True)
+    gemini_key = st.text_input(
+        "Gemini API Key",
+        type="password",
+        placeholder="Google AI Studio에서 발급받은 키를 붙여넣으세요",
+        label_visibility="collapsed",
+    )
 
 # 입력 영역
 col_type, _ = st.columns([1, 2])
